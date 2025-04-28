@@ -7,7 +7,7 @@ function createWindow() {
     height: 600,
   });
 
-  win.loadURL('data:text/html,<h1>Hello! This is Version 1.0.0</h1>');
+  win.loadURL('data:text/html,<h1>Hello! This is Version 1.0.2 after the update</h1>');
 }
 
 app.whenReady().then(() => {

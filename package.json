@@ -1,6 +1,6 @@
 {
     "name": "electron-auto-update-test",
-    "version": "1.0.0",
+    "version": "1.0.2",
     "description": "Test app for Electron auto-update via GitHub",
     "main": "main.js",
     "scripts": {

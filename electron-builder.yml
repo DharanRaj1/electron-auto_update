@@ -1,0 +1,5 @@
+appId: com.example.autoupdatetest
+publish:
+  provider: github
+  owner: your-github-username
+  repo: your-repo-name

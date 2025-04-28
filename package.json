@@ -12,7 +12,8 @@
   "repository": "https://github.com/DharanRaj1/electron-auto_update",
   "publish": {
     "provider": "github",
-    "releaseType": "release"
+    "releaseType": "release",
+    "useFullPackage": true
   },
   "build": {
     "appId": "com.dharanraj1.autoupdater",
@@ -22,6 +23,11 @@
     },
     "directories": {
       "output": "dist"
+    },
+    "nsis": {
+      "oneClick": true,
+      "perMachine": false,
+      "deleteAppDataOnUninstall": true
     }
   },
   "author": "DharanRaj1",

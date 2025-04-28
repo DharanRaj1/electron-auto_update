@@ -1,5 +1,0 @@
-appId: com.example.autoupdatetest
-publish:
-  provider: github
-  owner: DharanRaj1
-  repo: electron-auto_update

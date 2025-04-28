@@ -1,21 +1,58 @@
-const { app, BrowserWindow, autoUpdater } = require('electron');
-const path = require('path');
+const { app, BrowserWindow, ipcMain, ipcRenderer } = require("electron");
+const MainScreen = require("./screens/main/mainScreen");
+const Globals = require("./globals");
+const { autoUpdater, AppUpdater } = require("electron-updater");
+
+let curWindow;
+
+//Basic flags
+autoUpdater.autoDownload = false;
+autoUpdater.autoInstallOnAppQuit = true;
 
 function createWindow() {
-  const win = new BrowserWindow({
-    width: 800,
-    height: 600,
-  });
-
-  win.loadURL('data:text/html,<h1>Hello! This is Version 1.0.2 after the update</h1>');
+  curWindow = new MainScreen();
 }
 
-app.whenReady().then(() => {
+app.whenReady().then(async () => {
   createWindow();
 
-  autoUpdater.checkForUpdatesAndNotify();
+  app.on("activate", function () {
+    if (BrowserWindow.getAllWindows().length == 0) createWindow();
+  });
+
+  let resp = await autoUpdater.checkForUpdates();
+  curWindow.showMessage(`Checking for updates. Current version ${app.getVersion()}\n${resp}`);
 });
 
-app.on('window-all-closed', () => {
-  if (process.platform !== 'darwin') app.quit();
+/*New Update Available*/
+autoUpdater.on("update-available", (info) => {
+  curWindow.showMessage(`Update available. Current version ${app.getVersion()}`);
+  let pth = autoUpdater.downloadUpdate();
+  curWindow.showMessage(pth);
+});
+
+autoUpdater.on("update-not-available", (info) => {
+  curWindow.showMessage(`No update available. Current version ${app.getVersion()}`);
+});
+
+/*Download Completion Message*/
+autoUpdater.on("update-downloaded", (info) => {
+  curWindow.showMessage(`Update downloaded. Current version ${app.getVersion()}`);
+  autoUpdater.quitAndInstall();
+});
+
+autoUpdater.on("error", (info) => {
+  curWindow.showMessage(info);
+});
+
+
+
+
+//Global exception handler
+process.on("uncaughtException", function (err) {
+  console.log(err);
+});
+
+app.on("window-all-closed", function () {
+  if (process.platform != "darwin") app.quit();
 });
